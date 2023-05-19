@@ -1,3 +1,6 @@
+const math = require('remark-math');
+const katex = require('rehype-katex');
+
 module.exports = {
   title: "PoolTogether",
   tagline: "Documentation and Guides",
@@ -26,6 +29,11 @@ module.exports = {
         src: "img/favicon.png",
       },
       items: [
+        {
+          type: 'docsVersionDropdown',
+          position: 'left',
+          dropdownActiveClassDisabled: true,
+        },
         {
           href: "https://poolgrants.org/",
           label: "Grants",
@@ -130,19 +138,18 @@ module.exports = {
 
       // Should we use the prefers-color-scheme media-query,
       // using user system preferences, instead of the hardcoded defaultMode
-      respectPrefersColorScheme: true,
-
-      // Dark/light switch icon options
-      switchConfig: {
-        // Icon for the switch while in dark mode
-        darkIcon: "\u{263D}",
-
-        // Unicode icons such as '\u2600' will work
-        // Unicode with 5 chars require brackets: '\u{1F602}'
-        lightIcon: "\u{263C}",
-      },
+      respectPrefersColorScheme: true
     },
   },
+  stylesheets: [
+    {
+      href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+      type: 'text/css',
+      integrity:
+        'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+      crossorigin: 'anonymous',
+    },
+  ],
   presets: [
     [
       "@docusaurus/preset-classic",
@@ -151,11 +158,20 @@ module.exports = {
           path: "docs",
           routeBasePath: "protocol/",
           editUrl: "https://github.com/pooltogether/v4-docs/tree/main/",
+          // lastVersion: "current",
+          includeCurrentVersion: true,
+          versions: {
+            current: {
+              label: "V5"
+            }
+          },
+          remarkPlugins: [math],
+          rehypePlugins: [katex],
+
         },
 
         theme: {
-          customCss: require.resolve("./src/css/custom.css"),
-          customCss2: require.resolve("./src/css/colors.css"),
+          customCss: require.resolve("./src/css/custom.css")
         },
       },
     ],
